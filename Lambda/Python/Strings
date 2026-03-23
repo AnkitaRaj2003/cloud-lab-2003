@@ -1,0 +1,20 @@
+def lambda_handler(event, context):
+    text = event.get("text", "ankita")
+
+    upper_text = text.upper()
+    length = len(text)
+
+    print(f"Original: {text}")
+    print(f"Uppercase: {upper_text}")
+
+    return {
+        "original": text,
+        "uppercase": upper_text,
+        "length": length
+    }
+
+INPUT:
+
+{
+  "text": "cloud"
+}
