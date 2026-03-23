@@ -17,3 +17,21 @@ INPUT:
 {
   "numbers": [10, 20, 30, 40]
 }
+
+
+TO GET INPUT:
+
+def lambda_handler(event, context):
+    arr = event["numbers"]
+
+    total = sum(arr)
+
+    return {
+        "sum": total
+    }
+
+INPUT: 
+
+{
+  "numbers": [1,2,3,4,5]
+}
