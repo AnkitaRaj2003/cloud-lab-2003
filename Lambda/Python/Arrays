@@ -1,0 +1,19 @@
+def lambda_handler(event, context):
+    numbers = event.get("numbers", [1,2,3,4,5])
+
+    max_value = max(numbers)
+    total = sum(numbers)
+
+    print(f"Array: {numbers}")
+
+    return {
+        "max": max_value,
+        "sum": total
+    }
+
+
+INPUT:
+
+{
+  "numbers": [10, 20, 30, 40]
+}
