@@ -18,3 +18,13 @@ INPUT:
 {
   "text": "cloud"
 }
+
+
+TO GET INPUT:
+
+def lambda_handler(event, context):
+    name = event["name"]
+
+    return {
+        "message": "Hello " + name
+    }
