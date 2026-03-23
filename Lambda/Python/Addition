@@ -9,3 +9,11 @@ def lambda_handler(event, context):
     return {
         "result": result
     }
+
+
+INPUT:
+
+{
+  "a": 10,
+  "b": 20
+}
