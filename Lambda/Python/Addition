@@ -1,0 +1,11 @@
+def lambda_handler(event, context):
+    a = event.get("a", 5)
+    b = event.get("b", 3)
+
+    result = a + b   # computation
+
+    print(f"Adding {a} + {b} = {result}")
+
+    return {
+        "result": result
+    }
