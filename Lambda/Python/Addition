@@ -17,3 +17,18 @@ INPUT:
   "a": 10,
   "b": 20
 }
+
+
+TO TAKE INPUT:
+
+import json
+
+def lambda_handler(event, context):
+    a = event["a"]
+    b = event["b"]
+
+    result = a + b
+
+    return {
+        "result": result
+    }
