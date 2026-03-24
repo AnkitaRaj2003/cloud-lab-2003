@@ -15,3 +15,9 @@ module.exports = async function (context, req) {
         }
     };
 };
+
+
+OUTPUT:
+{
+  "numbers": [10,20,30]
+}
