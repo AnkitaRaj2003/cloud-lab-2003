@@ -1,0 +1,5 @@
+add data inside /data folder in s3
+
+create a iam role with s3+athena+glue policy
+
+go to glue -> crawler -> create crawler 
