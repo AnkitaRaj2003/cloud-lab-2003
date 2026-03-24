@@ -1,0 +1,25 @@
+Go to storage account and upload dataset in container
+go to azure sql database - root-user,Ankita123
+
+QUERY:
+CREATE TABLE house_data (
+    house_size_sqft INT,
+    bedrooms INT,
+    age_years INT,
+    price INT
+);
+
+
+BULK INSERT house_data
+FROM 'https://<storage-account>.blob.core.windows.net/<container>/house_price_dataset.csv'
+WITH (
+    FORMAT = 'CSV',
+    FIRSTROW = 2
+);
+
+INSERT INTO house_data VALUES
+(800,2,20,150000),
+(1000,2,15,180000),
+(1200,3,18,200000),
+(1500,3,10,250000),
+(1800,3,8,280000);
