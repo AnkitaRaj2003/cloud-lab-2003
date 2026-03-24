@@ -1,0 +1,1 @@
+Go to default storage accounts -> scroll down and then go to blob  service -> create container and upload file -> go to storage accounts -> on left side security & networking -> copy first access keys -> go to azure machine learning -> scroll down launch studio
