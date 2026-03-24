@@ -1,1 +1,96 @@
+ML in AWS:
+
+Create a bucket and upload the file
+Go to aws glue
+
+Let’s recreate correctly
+Step 1 — Create new Glue job
+Go to:
+AWS Glue → ETL Jobs → Create job
+Choose:
+
+Script editor
+
+Click Continue.
+
+Step 2 — Select correct job type
+Select:
+
+Spark
+
+Language:
+
+Python
+
+Glue version:
+
+Glue 4.0
+
+IAM role:
+
+AWSGlueServiceRole-HousePrice
+
+Worker type:
+
+G 1X
+
+Number of workers:
+
+2
+
+Click:
+
+Create job
+
+
+Step 3 — Paste this code
+Delete existing code and paste:
+
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName("house-price-clean").getOrCreate()
+
+# read dataset
+df = spark.read.csv(
+    "s3://house-price-ml-bucket-123/house_price_dataset.csv",
+    header=True,
+    inferSchema=True
+)
+
+# cleaning
+df = df.dropna()
+df = df.dropDuplicates()
+
+# save cleaned data
+df.write.mode("overwrite").csv(
+    "s3://house-price-ml-bucket-123/cleaned-data/",
+    header=True
+)
+
+print("SUCCESS")
+
+
+Step 4 — Run job
+Click:
+
+Save
+Run
+
+Wait 2–4 minutes.
+
+Step 5 — Check S3
+Go to:
+
+S3 → house-price-ml-bucket-123
+
+Now you should see:
+
+cleaned-data/
+
+Inside:
+
+part-00000-xxxx.csv
+_SUCCESS
+
+
 
