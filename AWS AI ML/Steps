@@ -123,3 +123,6 @@ _SUCCESS
 
 
 
+-----------
+ADD POLICY TO THE SAGEMAKER ROLE (click on the domail -> go to userprofile)
+Add the policy name - AWSS3FullAccess
