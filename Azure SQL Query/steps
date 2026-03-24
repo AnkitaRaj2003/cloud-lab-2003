@@ -23,3 +23,112 @@ INSERT INTO house_data VALUES
 (1200,3,18,200000),
 (1500,3,10,250000),
 (1800,3,8,280000);
+
+
+
+
+
+Synapse:
+
+SELECT TOP 5 *
+FROM OPENROWSET(
+    BULK 'https://<storage-name>.blob.core.windows.net/data/house_price_dataset.csv',
+    FORMAT='CSV',
+    PARSER_VERSION='2.0',
+    FIRSTROW=2
+) AS data;
+
+https://azureblobstoragesql.blob.core.windows.net/data/house_price_dataset.csv
+
+
+
+create azure databricks - then Launch Workspace
+
+Step 3 — Create Notebook
+Click Workspace
+Click + Create
+Select Notebook
+Fill:
+Field	Value
+Name	csv-read
+Language	Python
+
+Click Create
+
+Step 4 — Create cluster (one time setup)
+Click Compute
+Click Create Cluster
+Give name:
+cluster1
+Click Create
+
+Wait 2–5 min ⏳
+
+Step 5 — Run code to read CSV
+
+Paste this in notebook:
+
+df = spark.read.csv(
+    "https://<storage-name>.blob.core.windows.net/data/house_price_dataset.csv",
+    header=True,
+    inferSchema=True
+)
+
+display(df)
+
+Replace:
+
+<storage-name>
+
+Example:
+
+https://azureblobstoragesql.blob.core.windows.net/data/house_price_dataset.csv
+
+Click Run ▶️
+
+Output
+
+You will see table like:
+
+house_size_sqft	bedrooms	age_years	price
+
+Done ✅
+
+
+
+Synapse studio:
+
+1️⃣ Azure Synapse — simplest way
+Goal
+
+Run SQL query directly on CSV stored in Blob Storage.
+
+Steps (very short)
+Go to Azure Portal
+Search Azure Synapse Analytics
+Click Create
+Fill:
+Workspace name → synapse1
+Region → same as storage
+Storage account → select your blob storage
+Click Create
+
+Wait 2–3 min ⏳
+
+Run query
+Click Open Synapse Studio
+Click Develop
+Click + → SQL script
+Paste:
+SELECT TOP 5 *
+FROM OPENROWSET(
+    BULK 'https://<storage-name>.blob.core.windows.net/data/house_price_dataset.csv',
+    FORMAT='CSV',
+    PARSER_VERSION='2.0',
+    FIRSTROW=2
+) AS data;
+Click Run
+
+Done ✅
+
+No table creation needed.
