@@ -1,0 +1,25 @@
+Go to EC2:
+Create a new instance - 
+  choose ubuntu, t2.micro
+  Create a new key pair 
+    - name as ”notes-key” then choose RSA and format is .pem
+    - Add security group rule : Custom TCP and port = 8000, anywhere
+
+Connect to instance (terminal)
+Click instance → click: Connect
+Choose tab: EC2 Instance Connect
+Click: Connect
+Run this command:
+sudo apt update
+sudo apt install nodejs npm -y
+git clone https://github.com/AnkitaRaj2003/cloud-lab.git
+cd cloud-lab/full-stack-app/backend
+npm install
+node server.js
+
+To remove: rm -rf cloud-lab
+
+Once backend - http://PUBLIC_IP:8000/notes
+In Amplify: output - full-stack-app/frontend
+Go to security -> security groups -> inbound rules -> add port
+
