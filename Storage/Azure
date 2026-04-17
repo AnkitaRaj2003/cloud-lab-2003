@@ -1,0 +1,13 @@
+Store data in azure blob: 
+Search for storage account -> create new -> Review and create
+Scroll down go to blob storage → Containers -> open container and upload the file
+Azure SQL Database: Load data & run queries
+Create database -> change choose+storage to basic
+When the database is created open sql databases -> Go to Networking and allow public access (client IPv4) -> Go to Query selector
+
+RUN THESE QUERIES: 
+CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'StrongPass123!';
+
+CREATE DATABASE SCOPED CREDENTIAL MyCredential
+WITH IDENTITY = 'SHARED ACCESS SIGNATURE',
+SECRET = '?sv=2025-11-05&ss=bfqt&srt=o&sp=rwdlacupiytfx&se=2026-04-17T16:10:16Z&st=2026-04-17T07:55:16Z&spr=https&sig=dYzhuM5%2FKAp4Ik4PrHfTaN3QmgerCUWhTT9JIf8NiK4%3D';
