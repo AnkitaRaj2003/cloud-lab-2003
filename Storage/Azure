@@ -1,9 +1,21 @@
 Store data in azure blob: 
+
 Search for storage account -> create new -> Review and create
+
 Scroll down go to blob storage → Containers -> open container and upload the file
+
 Azure SQL Database: Load data & run queries
+
 Create database -> change choose+storage to basic
+
 When the database is created open sql databases -> Go to Networking and allow public access (client IPv4) -> Go to Query selector
+
+Go to Azure Portal -> Open Storage Account -> Go to Containers -> Open your container -> Click your file (csv/json) -> Click Generate SAS
+Tick:
+Read
+Click Generate SAS token and URL
+Copy Blob SAS URL
+
 
 RUN THESE QUERIES: 
 CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'StrongPass123!';
