@@ -8,14 +8,24 @@ export const handler = async (event) => {
     if (isNaN(a) || isNaN(b)) {
         return {
             statusCode: 400,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": "*"
+            },
             body: JSON.stringify({
-                error: "Please provide numbers a and b"
+                error: "Please provide numbers"
             })
         };
     }
 
     return {
         statusCode: 200,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "*"
+        },
         body: JSON.stringify({
             a: a,
             b: b,
