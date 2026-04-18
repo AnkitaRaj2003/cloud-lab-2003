@@ -1,0 +1,6 @@
+Dynamic: 
+
+go to azure app services
+create new
+after it is created go to the app service
+on the left side go to deployment -> deployment center -> select the source and upload github
