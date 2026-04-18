@@ -2,7 +2,6 @@
 <html>
 
 <head>
-
 <title>AWS Full Stack App</title>
 
 <style>
@@ -44,7 +43,6 @@ color:green;
 <h1>AWS Full Stack Calculator</h1>
 
 <input id="num1" placeholder="Enter first number">
-
 <input id="num2" placeholder="Enter second number">
 
 <br>
@@ -66,8 +64,10 @@ let response = await fetch(
 
 let data = await response.json();
 
+let result = JSON.parse(data.body);
+
 document.getElementById("result").innerText =
-"Result = " + data.result;
+"Result = " + result.result;
 
 }
 
