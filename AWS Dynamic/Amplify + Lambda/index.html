@@ -2,74 +2,77 @@
 <html>
 
 <head>
-<title>AWS Full Stack App</title>
-
-<style>
-
-body{
-font-family: Arial;
-text-align:center;
-margin-top:50px;
-background:#f2f2f2;
-}
-
-input{
-padding:10px;
-margin:10px;
-font-size:16px;
-}
-
-button{
-padding:10px 20px;
-font-size:16px;
-background:#0078D4;
-color:white;
-border:none;
-cursor:pointer;
-}
-
-#result{
-margin-top:20px;
-font-size:22px;
-color:green;
-}
-
-</style>
-
+<title>Student App</title>
 </head>
 
 <body>
 
-<h1>AWS Full Stack Calculator</h1>
+<h2>Add Student</h2>
 
-<input id="num1" placeholder="Enter first number">
-<input id="num2" placeholder="Enter second number">
+<input id="name" placeholder="Name">
 
-<br>
+<input id="age" placeholder="Age">
 
-<button onclick="calculate()">Add</button>
+<button onclick="addStudent()">Add</button>
 
-<h2 id="result"></h2>
+<h2>Student List</h2>
+
+<ul id="list"></ul>
 
 <script>
 
-async function calculate(){
+  // Add Trigger -> API Gateway -> Create New API -> Security OPEN -> Save
+  // Then copy the API endpoint and paste here
+const API_URL="https://nufwtd8v0f.execute-api.ap-southeast-2.amazonaws.com/default/fullstack-func";
 
-let a = document.getElementById("num1").value;
-let b = document.getElementById("num2").value;
+async function addStudent(){
 
-let response = await fetch(
-"https://plhcwhw01k.execute-api.ap-southeast-2.amazonaws.com/default/backend-demo?a="+a+"&b="+b
-);
+const name=document.getElementById("name").value;
 
-let data = await response.json();
+const age=document.getElementById("age").value;
 
-let result = JSON.parse(data.body);
+await fetch(API_URL,{
 
-document.getElementById("result").innerText =
-"Result = " + result.result;
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+name,
+age
+})
+
+});
+
+loadStudents();
 
 }
+
+async function loadStudents(){
+
+const res=await fetch(API_URL);
+
+const data=await res.json();
+
+const list=document.getElementById("list");
+
+list.innerHTML="";
+
+data.forEach(s=>{
+
+const li=document.createElement("li");
+
+li.textContent=s.name+" - "+s.age;
+
+list.appendChild(li);
+
+});
+
+}
+
+loadStudents();
 
 </script>
 
