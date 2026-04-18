@@ -12,8 +12,9 @@ Click: Connect
 Run this command:
 sudo apt update
 sudo apt install nodejs npm -y
-git clone https://github.com/AnkitaRaj2003/cloud-lab.git
-cd cloud-lab/full-stack-app/backend
+rm -rf cloud-lab
+git clone https://github.com/AnkitaRaj2003/student-app.git
+cd student-app
 npm install
 node server.js
 
