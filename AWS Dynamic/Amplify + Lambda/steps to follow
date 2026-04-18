@@ -1,0 +1,12 @@
+1) increase timeout
+Lambda → Configuration → General configuration → Edit
+Change: Timeout → 10 seconds
+Save
+
+2) Go to API Gateway -> On the left side click on CORS
+| Setting                      | Value            |
+| ---------------------------- | ---------------- |
+| Access-Control-Allow-Origin  | *                |
+| Access-Control-Allow-Headers | Content-Type     |
+| Access-Control-Allow-Methods | GET,POST,OPTIONS |
+Save.
