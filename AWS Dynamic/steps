@@ -12,7 +12,7 @@ Click: Connect
 Run this command:
 sudo apt update
 sudo apt install nodejs npm -y
-rm -rf cloud-lab
+rm -rf student-app
 git clone https://github.com/AnkitaRaj2003/student-app.git
 cd student-app
 npm install
