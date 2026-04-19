@@ -1,25 +1,18 @@
-⭐ AWS Amplify + Lambda + DynamoDB (simplest working alternative)
-
-Everything stays inside AWS:
-
-frontend hosted on AWS
-backend runs on AWS
-database on AWS
-no EC2 needed (so verification rarely blocks it)
 Architecture
-HTML page (Amplify Hosting)
-        ↓ fetch()
-API (AWS Lambda)
+Frontend (AWS Amplify)
+        ↓ API call
+Backend (AWS Lambda)
         ↓
 Database (DynamoDB)
 
 Services used:
 
-AWS Amplify → host HTML
-AWS Lambda → backend logic
-Amazon DynamoDB → database
-Amazon API Gateway → API endpoint
-Step-by-step (very simple)
+AWS Amplify
+AWS Lambda
+Amazon API Gateway
+Amazon DynamoDB
+
+--------------------------------------------
 Step 1 — create database
 
 Open:
@@ -28,11 +21,12 @@ Amazon DynamoDB
 
 Create table:
 
-Table name: demoTable
+Table name: todos
 Primary key: id (string)
 
-Click create.
+Click Create table
 
+-----------------------------------------
 Step 2 — create backend (Lambda)
 
 Open:
@@ -41,29 +35,59 @@ AWS Lambda
 
 Create function:
 
-runtime: Node.js
-function name: demoAPI
+Name: todoAPI
+Runtime: Node.js 20
 
 Replace code with:
 
 const AWS = require("aws-sdk")
 
-const db =
-new AWS.DynamoDB.DocumentClient()
+const db = new AWS.DynamoDB.DocumentClient()
 
-exports.handler = async ()=>{
+exports.handler = async (event) => {
 
- await db.put({
-  TableName:"demoTable",
-  Item:{
-   id: Date.now().toString(),
-   message:"Hello from DynamoDB"
-  }
- }).promise()
+ const method = event.requestContext.http.method
 
- const result =
- await db.scan({
-  TableName:"demoTable"
+ // CREATE TODO
+ if(method === "POST"){
+
+  const body = JSON.parse(event.body)
+
+  await db.put({
+
+   TableName:"todos",
+
+   Item:{
+    id: Date.now().toString(),
+    text: body.text
+   }
+
+  }).promise()
+
+ }
+
+ // DELETE TODO
+ if(method === "DELETE"){
+
+  const body = JSON.parse(event.body)
+
+  await db.delete({
+
+   TableName:"todos",
+
+   Key:{
+    id: body.id
+   }
+
+  }).promise()
+
+ }
+
+ // GET TODOS
+ const result = await db.scan({
+
+  TableName:"todos"
+
  }).promise()
 
  return {
@@ -80,29 +104,36 @@ exports.handler = async ()=>{
 
 }
 
-Click Deploy.
+Click Deploy
 
+-----------------------------------------
 Step 3 — create API endpoint
 
 Open:
 
 Amazon API Gateway
 
-Create API:
+Create:
 
-type → HTTP API
-integration → Lambda
-select → demoAPI
+HTTP API
 
-After creation you get URL:
+Add integration → Lambda → select todoAPI
+
+Enable routes:
+
+GET /
+POST /
+DELETE /
+
+After creation you get URL like:
 
 https://abc123.execute-api.ap-south-1.amazonaws.com
 
-Copy this.
+Copy this URL.
 
-Step 4 — create simple frontend
+Step 4 — create frontend
 
-Create file locally:
+Create file:
 
 index.html
 <!DOCTYPE html>
@@ -111,31 +142,85 @@ index.html
 
 <body>
 
-<h2>AWS Full Stack App</h2>
+<h2>AWS Todo List</h2>
 
-<button onclick="loadData()">
-Call backend
-</button>
+<input id="todoInput" placeholder="Enter todo">
 
-<pre id="output"></pre>
+<button onclick="addTodo()">Add</button>
+
+<ul id="list"></ul>
 
 <script>
 
-async function loadData(){
+const API =
+"https://abc123.execute-api.ap-south-1.amazonaws.com"
 
- const res =
- await fetch(
- "https://abc123.execute-api.ap-south-1.amazonaws.com"
- )
 
- const data =
- await res.json()
+async function loadTodos(){
 
- document.getElementById("output")
- .textContent =
- JSON.stringify(data,null,2)
+ const res = await fetch(API)
+
+ const data = await res.json()
+
+ const list =
+ document.getElementById("list")
+
+ list.innerHTML=""
+
+ data.forEach(todo=>{
+
+  const li =
+  document.createElement("li")
+
+  li.innerHTML =
+
+  todo.text +
+
+  ` <button
+  onclick="deleteTodo('${todo.id}')">
+  delete
+  </button>`
+
+  list.appendChild(li)
+
+ })
 
 }
+
+
+async function addTodo(){
+
+ const text =
+ document.getElementById("todoInput").value
+
+ await fetch(API,{
+
+  method:"POST",
+
+  body:JSON.stringify({text})
+
+ })
+
+ loadTodos()
+
+}
+
+
+async function deleteTodo(id){
+
+ await fetch(API,{
+
+  method:"DELETE",
+
+  body:JSON.stringify({id})
+
+ })
+
+ loadTodos()
+
+}
+
+loadTodos()
 
 </script>
 
@@ -143,9 +228,9 @@ async function loadData(){
 
 </html>
 
-Replace URL with your API URL.
+Replace API URL with yours.
 
-Step 5 — host frontend
+Step 5 — deploy frontend
 
 Open:
 
@@ -164,5 +249,3 @@ Deploy.
 Amplify gives URL like:
 
 https://main.xxxxxx.amplifyapp.com
-
-Open site → click button → data from AWS DB 🎉
