@@ -1,135 +1,137 @@
-⭐ Elastic Beanstalk + RDS (Easiest Method)
-frontend → simple HTML page
-backend → Node.js (Express)
-database → AWS RDS PostgreSQL
-deployment → AWS Elastic Beanstalk
-coding → AWS CloudShell (browser terminal)
+⭐ AWS Amplify + Lambda + DynamoDB (simplest working alternative)
 
-Everything runs inside AWS only.
+Everything stays inside AWS:
 
+frontend hosted on AWS
+backend runs on AWS
+database on AWS
+no EC2 needed (so verification rarely blocks it)
 Architecture
-Browser
-  ↓
-Elastic Beanstalk (Node.js server + HTML)
-  ↓
-Amazon RDS (PostgreSQL database)
+HTML page (Amplify Hosting)
+        ↓ fetch()
+API (AWS Lambda)
+        ↓
+Database (DynamoDB)
 
 Services used:
 
-AWS Elastic Beanstalk → runs backend + hosts frontend
-Amazon RDS → database
-AWS CloudShell → write & deploy code
-Step-by-step
-Step 1 — open CloudShell (no local setup)
+AWS Amplify → host HTML
+AWS Lambda → backend logic
+Amazon DynamoDB → database
+Amazon API Gateway → API endpoint
+Step-by-step (very simple)
+Step 1 — create database
 
-Login AWS console → open:
+Open:
 
-AWS CloudShell
+Amazon DynamoDB
 
-Create project:
+Create table:
 
-mkdir beanstalk-app
-cd beanstalk-app
-Step 2 — create backend code
+Table name: demoTable
+Primary key: id (string)
 
-Create file:
+Click create.
 
-nano server.js
+Step 2 — create backend (Lambda)
 
-Paste:
+Open:
 
-const express = require("express")
-const { Pool } = require("pg")
+AWS Lambda
 
-const app = express()
+Create function:
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  user: "postgres",
-  password: "password",
-  database: "testdb",
-  port: 5432
-})
+runtime: Node.js
+function name: demoAPI
 
-app.get("/api", async (req,res)=>{
+Replace code with:
 
- await pool.query(`
- CREATE TABLE IF NOT EXISTS demo(
-   id SERIAL PRIMARY KEY,
-   text VARCHAR(50)
- )
- `)
+const AWS = require("aws-sdk")
 
- await pool.query(`
- INSERT INTO demo(text)
- VALUES('Hello from AWS RDS')
- `)
+const db =
+new AWS.DynamoDB.DocumentClient()
+
+exports.handler = async ()=>{
+
+ await db.put({
+  TableName:"demoTable",
+  Item:{
+   id: Date.now().toString(),
+   message:"Hello from DynamoDB"
+  }
+ }).promise()
 
  const result =
- await pool.query("SELECT * FROM demo")
+ await db.scan({
+  TableName:"demoTable"
+ }).promise()
 
- res.json(result.rows)
+ return {
 
-})
+  statusCode:200,
 
-app.use(express.static("public"))
+  headers:{
+   "Access-Control-Allow-Origin":"*"
+  },
 
-app.listen(8080)
+  body:JSON.stringify(result.Items)
 
-Save:
-CTRL+X → Y → Enter
-
-Step 3 — create package.json
-nano package.json
-
-Paste:
-
-{
- "name":"beanstalk-app",
- "version":"1.0.0",
- "main":"server.js",
- "dependencies":{
-  "express":"^4.18.2",
-  "pg":"^8.11.3"
  }
+
 }
 
-Save.
+Click Deploy.
 
-Install packages:
+Step 3 — create API endpoint
 
-npm install
+Open:
+
+Amazon API Gateway
+
+Create API:
+
+type → HTTP API
+integration → Lambda
+select → demoAPI
+
+After creation you get URL:
+
+https://abc123.execute-api.ap-south-1.amazonaws.com
+
+Copy this.
+
 Step 4 — create simple frontend
-mkdir public
-nano public/index.html
 
-Paste:
+Create file locally:
 
+index.html
 <!DOCTYPE html>
 
 <html>
 
 <body>
 
-<h2>Elastic Beanstalk + RDS</h2>
+<h2>AWS Full Stack App</h2>
 
-<button onclick="load()">
+<button onclick="loadData()">
 Call backend
 </button>
 
-<pre id="result"></pre>
+<pre id="output"></pre>
 
 <script>
 
-async function load(){
+async function loadData(){
 
  const res =
- await fetch("/api")
+ await fetch(
+ "https://abc123.execute-api.ap-south-1.amazonaws.com"
+ )
 
  const data =
  await res.json()
 
- document.getElementById("result")
+ document.getElementById("output")
  .textContent =
  JSON.stringify(data,null,2)
 
@@ -141,78 +143,26 @@ async function load(){
 
 </html>
 
-Save.
+Replace URL with your API URL.
 
-Step 5 — create database on AWS
-
-Open:
-
-Amazon RDS
-
-Create database:
-
-settings:
-
-engine → PostgreSQL
-db name → testdb
-username → postgres
-password → password
-public access → YES
-
-After creation copy:
-
-endpoint example:
-database-1.abc123.us-east-1.rds.amazonaws.com
-Step 6 — allow connection to DB
-
-RDS → Security group → inbound rule:
-
-type → PostgreSQL
-port → 5432
-source → anywhere
-Step 7 — zip code inside AWS
-
-In CloudShell:
-
-zip -r app.zip .
-
-Download OR directly upload zip.
-
-Step 8 — create Elastic Beanstalk app
+Step 5 — host frontend
 
 Open:
 
-AWS Elastic Beanstalk
+AWS Amplify
 
 Click:
 
-Create application
+Deploy without Git
 
-settings:
+Upload:
 
-platform → Node.js
-upload code → upload app.zip
-Step 9 — connect database
+index.html
 
-Elastic Beanstalk → configuration → environment variables
+Deploy.
 
-Add:
+Amplify gives URL like:
 
-DB_HOST = your RDS endpoint
+https://main.xxxxxx.amplifyapp.com
 
-Example:
-
-DB_HOST =
-database-1.abc123.us-east-1.rds.amazonaws.com
-
-Save → wait for update.
-
-Step 10 — open app
-
-Elastic Beanstalk gives URL:
-
-http://beanstalk-app-env.eba-xyz.us-east-1.elasticbeanstalk.com
-
-Open in browser.
-
-Click button → data from AWS database appears 🎉
+Open site → click button → data from AWS DB 🎉
