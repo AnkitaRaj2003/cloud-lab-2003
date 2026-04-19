@@ -159,6 +159,8 @@ https://abc123.execute-api.ap-south-1.amazonaws.com
 
 Copy this URL.
 
+-----------------------------------------------------------
+
 Step 4 — create frontend
 
 Create file:
@@ -258,6 +260,7 @@ loadTodos()
 
 Replace API URL with yours.
 
+-----------------------------------------------------------
 Step 5 — deploy frontend
 
 Open:
