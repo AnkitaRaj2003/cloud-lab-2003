@@ -40,69 +40,97 @@ Runtime: Node.js 20
 
 Replace code with:
 
-const AWS = require("aws-sdk")
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import {
+  DynamoDBDocumentClient,
+  PutCommand,
+  DeleteCommand,
+  ScanCommand
+} from "@aws-sdk/lib-dynamodb";
 
-const db = new AWS.DynamoDB.DocumentClient()
+const client = new DynamoDBClient({});
+const db = DynamoDBDocumentClient.from(client);
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
 
- const method = event.requestContext.http.method
+ try{
 
- // CREATE TODO
- if(method === "POST"){
+  const method =
+  event.requestContext?.http?.method
+  || event.httpMethod;
 
-  const body = JSON.parse(event.body)
+  // CREATE TODO
+  if(method === "POST"){
 
-  await db.put({
+   const body = JSON.parse(event.body);
 
-   TableName:"todos",
+   await db.send(new PutCommand({
 
-   Item:{
-    id: Date.now().toString(),
-    text: body.text
-   }
+    TableName:"todos",
 
-  }).promise()
+    Item:{
+     id: Date.now().toString(),
+     text: body.text
+    }
+
+   }));
+
+  }
+
+  // DELETE TODO
+  if(method === "DELETE"){
+
+   const body = JSON.parse(event.body);
+
+   await db.send(new DeleteCommand({
+
+    TableName:"todos",
+
+    Key:{
+     id: body.id
+    }
+
+   }));
+
+  }
+
+  // GET TODOS
+  const result =
+  await db.send(new ScanCommand({
+
+   TableName:"todos"
+
+  }));
+
+  return {
+
+   statusCode:200,
+
+   headers:{
+    "Access-Control-Allow-Origin":"*",
+    "Access-Control-Allow-Headers":"*",
+    "Access-Control-Allow-Methods":"*"
+   },
+
+   body:JSON.stringify(result.Items)
+
+  };
 
  }
 
- // DELETE TODO
- if(method === "DELETE"){
+ catch(error){
 
-  const body = JSON.parse(event.body)
+  return {
 
-  await db.delete({
+   statusCode:500,
 
-   TableName:"todos",
+   body:JSON.stringify(error.message)
 
-   Key:{
-    id: body.id
-   }
-
-  }).promise()
+  };
 
  }
 
- // GET TODOS
- const result = await db.scan({
-
-  TableName:"todos"
-
- }).promise()
-
- return {
-
-  statusCode:200,
-
-  headers:{
-   "Access-Control-Allow-Origin":"*"
-  },
-
-  body:JSON.stringify(result.Items)
-
- }
-
-}
+};
 
 Click Deploy
 
