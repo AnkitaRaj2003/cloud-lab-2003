@@ -142,6 +142,7 @@ app.delete("/api", async (req,res)=>{
 })
 
 app.listen(process.env.PORT || 3000)
+
 Step 4 — frontend
 public/index.html
 <!DOCTYPE html>
