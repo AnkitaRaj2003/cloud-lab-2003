@@ -143,6 +143,7 @@ app.delete("/api", async (req,res)=>{
 
 app.listen(process.env.PORT || 3000)
 
+-----------------------------------------------------
 Step 4 — frontend
 public/index.html
 <!DOCTYPE html>
@@ -240,11 +241,15 @@ loadTodos()
 </body>
 
 </html>
+-----------------------------------------------------
 Step 5 — zip project
 
 zip folder:
 
 todo-azure.zip
+
+
+------------------------------------------------
 Step 6 — create web app
 
 Open:
@@ -257,6 +262,8 @@ runtime: Node 20 LTS
 
 Create.
 
+
+-------------------------------------------------
 Step 7 — deploy zip
 
 In App Service:
@@ -270,6 +277,8 @@ Zip Deploy
 Upload:
 
 todo-azure.zip
+
+---------------------------------------------------------------
 Step 8 — add database connection
 
 App Service → Settings → Environment variables:
@@ -286,7 +295,7 @@ Step 9 — allow connection
 
 Open:
 
-Azure SQL Database
+Azure SQL Database -> Go to the server -> on the left menu there is settings inside that we have networking
 
 Networking:
 
