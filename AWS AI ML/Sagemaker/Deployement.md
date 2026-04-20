@@ -43,11 +43,12 @@ npm install
 ## 6 Configure Environment Variables
 
 Create `.env`.
-
+Using `nano .env`
+Use ctrl+X
 ```env
 PORT=3000
 AWS_REGION=ap-south-1
-SAGEMAKER_ENDPOINT_NAME=iris-endpoint-xxxx
+SAGEMAKER_ENDPOINT_NAME=iris-endpoint-103616
 AWS_ACCESS_KEY_ID=YOUR_KEY
 AWS_SECRET_ACCESS_KEY=YOUR_SECRET
 ```
