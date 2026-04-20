@@ -1,1 +1,71 @@
+Step-by-step to add Environment Variables
+Step 1 — open Elastic Beanstalk
 
+Go to:
+
+AWS Console → Elastic Beanstalk
+
+Click your application.
+
+Example:
+
+iris-beanstalk-env
+Step 2 — open configuration
+
+Click:
+
+Configuration
+
+You will see different sections.
+
+Find:
+
+Software
+
+Click:
+
+Edit
+Step 3 — add environment variables
+
+Scroll to:
+
+Environment properties
+
+Add variables one by one.
+
+Click Add environment property
+
+Add:
+
+Name	Value
+PORT	3000
+AWS_REGION	ap-southeast-2
+SAGEMAKER_ENDPOINT_NAME	iris-endpoint-103616
+AWS_ACCESS_KEY_ID	your_new_access_key
+AWS_SECRET_ACCESS_KEY	your_new_secret_key
+MODEL_PROVIDER	sagemaker
+Example entry
+
+Name:
+
+AWS_REGION
+
+Value:
+
+ap-southeast-2
+
+Click Add
+
+Step 4 — save
+
+Click:
+
+Apply
+
+Beanstalk will update environment (takes ~1 minute).
+
+Step 5 — test
+
+Open:
+
+http://YOUR-BEANSTALK-URL/health
