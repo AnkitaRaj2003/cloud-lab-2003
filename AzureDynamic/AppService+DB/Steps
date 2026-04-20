@@ -332,4 +332,5 @@ https://yourapp.azurewebsites.net
 
 
 
-Development Tools -> Advanced Tools -> Go -> File Manager -> site -> wwwroot -> 
+Development Tools -> Advanced Tools -> Go -> File Manager -> site -> wwwroot
+To check logs -> Monitoring -> Logs Stream
