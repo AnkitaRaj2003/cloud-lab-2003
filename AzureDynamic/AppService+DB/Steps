@@ -278,6 +278,18 @@ Upload:
 
 todo-azure.zip
 
+
+ORRRRRRRR
+
+Select the repo from github
+save the changes
+Go to your GitHub repo: Azure-dynamic
+Open folder: .github/workflows
+Open file: main_azuretodoapp.yml
+app_location: "AWS Dynamic/Amplify + RDS/todo-azure"
+Or
+working-directory: AWS Dynamic/Amplify + RDS/todo-azure
+
 ---------------------------------------------------------------
 Step 8 — add database connection
 
