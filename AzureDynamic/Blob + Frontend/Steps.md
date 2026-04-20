@@ -207,21 +207,25 @@ loadItems();
 Step 6 — Run app
 Go to Static web app and upload this from repo AzureBlobApp
 
-CREATE
-Adds item to JSON stored in blob
 
-READ
-Loads JSON from blob
 
-UPDATE
-Changes item in JSON file
 
-DELETE
-Removes item from JSON file
 
-Example stored file (Blob)
-[
- "apple",
- "banana",
- "mango"
-]
+
+-------------------- ENABLE CORS-----------------------
+Steps to enable CORS
+Go to Storage Account
+Left menu → Resource sharing (CORS)
+Select Blob service
+Click Add
+
+Fill:
+
+Field	Value
+Allowed origins	*
+Allowed methods	GET, PUT, POST, DELETE
+Allowed headers	*
+Exposed headers	*
+Max age	3600
+
+Click Save
