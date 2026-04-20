@@ -35,7 +35,7 @@ Write
 Create
 Delete
 Click Generate
-Copy Blob SAS URL
+Copy Blob Service SAS URL
 
 Example:
 
@@ -205,14 +205,7 @@ loadItems();
 
 </html>
 Step 6 — Run app
-
-Just open:
-
-index.html
-
-in browser.
-
-How CRUD works
+Go to Static web app and upload this from repo AzureBlobApp
 
 CREATE
 Adds item to JSON stored in blob
