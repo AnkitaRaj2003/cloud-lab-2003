@@ -1,4 +1,6 @@
 Open SageMaker Studio
 On the left side go to Notebook -> create a new notebook instance
 Open the notebook -> create a conda_python3 file
-Go to the github and run the code
+Go to the ML.ipynb and paste the code in the notebook and run that
+
+Deployment:
