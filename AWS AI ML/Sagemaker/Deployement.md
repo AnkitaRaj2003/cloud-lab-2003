@@ -27,7 +27,7 @@ npm -v
 ```bash
 cd ~
 git clone https://github.com/AnujTanwar2004/ModelDeployment.git
-cd ModelDeployement
+cd ~/ModelDeployment
 ```
 ```if error happens sudo chown -R ec2-user:ec2-user /home/ec2-user```
 ---
