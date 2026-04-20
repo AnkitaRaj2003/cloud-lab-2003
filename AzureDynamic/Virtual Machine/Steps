@@ -1,0 +1,45 @@
+username: azureuser
+password: Ankitameena@2003
+
+
+
+
+ssh azureuser@PUBLIC_IP
+
+sudo apt update
+sudo apt install nodejs npm -y
+
+node -v
+npm -v
+
+git clone https://github.com/AnkitaRaj2003/AmplifyFullStack.git
+cd AmplifyFullStack
+
+npm install
+
+node server.js
+
+
+
+Follow exactly:
+
+Go to Azure Portal
+Open Virtual Machines
+Click your VM → full-stack-web-app
+Left menu → Networking
+Click + Add inbound port rule
+
+Fill:
+
+Field	Value
+Source	Any
+Source port ranges	*
+Destination	Any
+Service Custom
+Destination port ranges	3000
+Protocol	TCP
+Action	Allow
+Priority	310 (or default)
+Name	allow-3000
+
+Click Add ✅
