@@ -176,3 +176,68 @@ AWS_ACCESS_KEY_ID=NEW_KEY
 AWS_SECRET_ACCESS_KEY=NEW_SECRET
 Test after deploy
 https://your-app-url.ap-southeast-2.awsapprunner.com
+
+
+
+
+
+
+
+
+------------ IN CASE OF ERROR---------------
+That error:
+
+Cannot read properties of null (reading 'postMessage')
+
+happens due to a GitHub popup connection bug in AWS console, not because of your code.
+
+It usually occurs when:
+
+• popup blocked by browser
+• third-party cookies disabled
+• GitHub login session conflict
+• browser extensions blocking popup
+• AWS console glitch
+
+Fast Fix (works in most cases) ✅
+Step 1 — allow popups
+
+In browser address bar:
+
+Allow popups for:
+
+aws.amazon.com
+github.com
+
+Then refresh App Runner page.
+
+Step 2 — reconnect GitHub
+
+Go to:
+
+App Runner → Create Service → Source = GitHub
+
+Click:
+
+Connect to GitHub
+
+Login again.
+
+If still error
+Step 3 — try Incognito window ⭐
+
+Open new private window:
+
+Chrome:
+
+Ctrl + Shift + N
+
+Login AWS again.
+
+Then connect GitHub.
+
+Step 4 — try different browser
+
+Chrome works best.
+
+Avoid Brave (blocks popups sometimes).
