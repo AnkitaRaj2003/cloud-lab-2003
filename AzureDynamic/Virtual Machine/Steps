@@ -25,7 +25,8 @@ node server.js
 ---- IF MAKE ANY CHANGES IN THE GITHUB
 git pull
 
-
+--- To remove a file
+rm -rf student-app
 
 
 ------------------------------
