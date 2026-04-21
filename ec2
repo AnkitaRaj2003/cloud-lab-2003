@@ -1,4 +1,0 @@
-First upload the file
-
-chmod 400 key.pem
-ssh -i key.pen ec2-user@PUBLIC_IP
