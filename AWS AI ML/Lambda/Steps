@@ -7,7 +7,7 @@ go to configuration -> permissions -> attach permissions -> attach json
 		{
 			"Effect": "Allow",
 			"Action": "sagemaker:InvokeEndpoint",
-			"Resource": "arn:aws:sagemaker:us-east-2:815373273378:endpoint/iris-endpoint-035229"
+			"Resource": "*"
 		}
 	]
 }
