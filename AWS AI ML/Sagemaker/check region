@@ -1,6 +1,0 @@
-import sagemaker
-
-sess = sagemaker.Session()
-region = sess.boto_region_name
-
-print(region)
