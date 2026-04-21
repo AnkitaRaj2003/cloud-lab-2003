@@ -1,0 +1,12 @@
+Web Dev: 
+
+AWS - for static - amplify, s2 bucket
+      for dynamic - ec2, amplify+lambda,beanstalk,amplify+rds,ec2+s3
+
+Azure - static - blob storage, azure static web apps
+        dynamic - azure app service, VM, blob+frontend
+
+MLOPS:
+
+AWS - EC2, lambda,beanstalk,app runner
+ML - function, app service, static web app
