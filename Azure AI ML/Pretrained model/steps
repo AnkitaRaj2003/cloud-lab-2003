@@ -1,6 +1,0 @@
-open workspace
-go to models (on the left side) and click on "From local files" upload the model and then register
-on the left menu, create endpoint 
-- code and environment for inference: 
-  - upload score.py
-  - select environment - curated environment and search for sklearn
