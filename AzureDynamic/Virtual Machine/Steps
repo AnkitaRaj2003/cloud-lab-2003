@@ -28,6 +28,9 @@ git pull
 --- To remove a file
 rm -rf student-app
 
+--- Address already in use error
+pkill node
+node server.js
 
 ------------------------------
 Reset password for the VM 🔑
