@@ -14,89 +14,47 @@ model.joblib
 model.pt
 model.onnx
 
-Typical path:
+Typical path: s3://my-bucket/model.tar.gz
 
-s3://my-bucket/model.tar.gz
+
 Step 2: Create Model in SageMaker
 
-Go to:
+Create a notebook instance (scroll down see iam role then attach s3fullaccess policy to its iam)
+open notebook instance -> create a inference.py file and conda python3 file
 
-Amazon SageMaker → Deployments & inference → Deployable models
 
-Click:
+---------------
+inference.py:
+---------------
+import joblib
+import os
 
-Create model
+def model_fn(model_dir):
+    return joblib.load(os.path.join(model_dir, "model.pkl"))
 
-Fill fields:
+def predict_fn(input_data, model):
+    return model.predict(input_data)
 
-Field	What to put
-Model name	any name
-IAM role	Create new role
-Model data location	S3 path of model
-Container	choose framework
 
-Example containers:
+----------
+ML.ipynb:
+----------
+from sagemaker.sklearn.model import SKLearnModel
+import sagemaker
 
-Model type	Container
-sklearn	Scikit-learn
-pytorch	PyTorch
-tensorflow	TensorFlow
-custom	bring your own container
+role = sagemaker.get_execution_role()
 
-Click Create model
-
-Step 3: Create Endpoint
-
-Now go to:
-
-Deployments & inference → Endpoints
-
-Click:
-
-Create endpoint
-
-Fill:
-
-Field	Value
-Endpoint name	my-endpoint
-Model	select model created above
-Instance type	ml.t2.medium
-Instance count	1
-
-Click:
-
-Create endpoint
-
-Wait 5–10 minutes until:
-
-Status = InService
-Final result 🎯
-
-You will get an API endpoint:
-
-Endpoint name: my-endpoint
-Service: SageMaker Runtime
-
-Use in code:
-
-runtime.invoke_endpoint(
- EndpointName="my-endpoint"
+model = SKLearnModel(
+    model_data="s3://pretrained-model-2003/model.tar.gz",
+    role=role,
+    entry_point="inference.py",
+    framework_version="1.2-1"
 )
-Easiest flow diagram
-Faculty gives model
-        ↓
-Upload to S3
-        ↓
-Create model (SageMaker)
-        ↓
-Create endpoint
-        ↓
-API ready
-Cheapest settings 💰
 
-Use:
+predictor = model.deploy(
+    instance_type="ml.t2.medium",
+    initial_instance_count=1,
+    endpoint_name="pretrained-endpoint"
+)
 
-Instance type = ml.t2.medium
-Instance count = 1
-
-Then delete endpoint after demo to avoid cost.
+print("Endpoint created!")
