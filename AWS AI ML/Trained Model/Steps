@@ -1,0 +1,102 @@
+Step 1: Upload trained model to S3
+
+Go to Amazon S3
+
+Open AWS Console → search S3
+Create bucket (if not created)
+Upload your model file
+
+Example:
+
+model.tar.gz
+model.pkl
+model.joblib
+model.pt
+model.onnx
+
+Typical path:
+
+s3://my-bucket/model.tar.gz
+Step 2: Create Model in SageMaker
+
+Go to:
+
+Amazon SageMaker → Deployments & inference → Deployable models
+
+Click:
+
+Create model
+
+Fill fields:
+
+Field	What to put
+Model name	any name
+IAM role	Create new role
+Model data location	S3 path of model
+Container	choose framework
+
+Example containers:
+
+Model type	Container
+sklearn	Scikit-learn
+pytorch	PyTorch
+tensorflow	TensorFlow
+custom	bring your own container
+
+Click Create model
+
+Step 3: Create Endpoint
+
+Now go to:
+
+Deployments & inference → Endpoints
+
+Click:
+
+Create endpoint
+
+Fill:
+
+Field	Value
+Endpoint name	my-endpoint
+Model	select model created above
+Instance type	ml.t2.medium
+Instance count	1
+
+Click:
+
+Create endpoint
+
+Wait 5–10 minutes until:
+
+Status = InService
+Final result 🎯
+
+You will get an API endpoint:
+
+Endpoint name: my-endpoint
+Service: SageMaker Runtime
+
+Use in code:
+
+runtime.invoke_endpoint(
+ EndpointName="my-endpoint"
+)
+Easiest flow diagram
+Faculty gives model
+        ↓
+Upload to S3
+        ↓
+Create model (SageMaker)
+        ↓
+Create endpoint
+        ↓
+API ready
+Cheapest settings 💰
+
+Use:
+
+Instance type = ml.t2.medium
+Instance count = 1
+
+Then delete endpoint after demo to avoid cost.
